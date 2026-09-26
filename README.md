@@ -27,6 +27,8 @@ Sistema web desenvolvido para gerenciar o fluxo de empréstimo e devolução de 
 │   ├── supabase.js
 │   ├── auth.js
 │   └── app.js
+├── Protótipos Alta Fidelidade/
+│   └── *.png
 ├── .gitignore
 ├── index.html
 ├── dashboard.html
