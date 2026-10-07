@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
     <title>Área Administrativa - Gestão de Chaves DSI</title>
 </head>
 <body>
@@ -12,13 +13,14 @@
         <p>Área administrativa</p>
     </header>
 
-    <main>
-        <nav aria-label="Seções administrativas">
-            <ul>
-                <li><a href="#historico">Laboratórios</a></li>
-                <li><a href="#alunos">Alunos</a></li>
-            </ul>
-        </nav>
+    <main class="pagina-admin">
+        <fieldset class="abas-admin">
+            <legend>Seções administrativas</legend>
+            <input id="aba-laboratorios" name="secao-admin" type="radio" aria-controls="historico" checked>
+            <label for="aba-laboratorios">Laboratórios</label>
+            <input id="aba-alunos" name="secao-admin" type="radio" aria-controls="alunos">
+            <label for="aba-alunos">Alunos</label>
+        </fieldset>
 
         <section id="historico" aria-labelledby="titulo-historico">
             <h2 id="titulo-historico">Histórico</h2>
@@ -78,8 +80,10 @@
     <footer>
         <nav aria-label="Navegação do sistema">
             <a href="../index.html">Início</a>
-            <a href="aluno.html">Área do aluno</a>
         </nav>
+        <p>
+            &copy; 2026 Chaves Laboratórios - Todos os Direitos Reservados.
+        </p>
     </footer>
 </body>
 </html>
