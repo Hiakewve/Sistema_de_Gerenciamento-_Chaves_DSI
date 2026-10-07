@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área Administrativa - Gestão de Chaves DSI</title>
+</head>
+<body>
+    <header>
+        <h1>DSI - Gestão de Chaves</h1>
+        <p>Departamento de Sistemas de Informação</p>
+        <p>Área administrativa</p>
+    </header>
+
+    <main>
+        <nav aria-label="Seções administrativas">
+            <ul>
+                <li><a href="#historico">Laboratórios</a></li>
+                <li><a href="#alunos">Alunos</a></li>
+            </ul>
+        </nav>
+
+        <section id="historico" aria-labelledby="titulo-historico">
+            <h2 id="titulo-historico">Histórico</h2>
+            <table>
+                <caption>Histórico de empréstimos e devoluções das chaves</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Laboratório</th>
+                        <th scope="col">Retirada</th>
+                        <th scope="col">Devolução</th>
+                        <th scope="col">Solicitado por</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <section id="alunos" aria-labelledby="titulo-alunos">
+            <h2 id="titulo-alunos">Alunos</h2>
+
+            <details>
+                <summary>Cadastrar Aluno</summary>
+                <form action="#" method="get">
+                    <p>
+                        <label for="nome-aluno">Nome</label>
+                        <input id="nome-aluno" name="nome" type="text" autocomplete="name" required>
+                    </p>
+                    <p>
+                        <label for="email-aluno">E-mail (Google)</label>
+                        <input id="email-aluno" name="email" type="email" autocomplete="email" required>
+                    </p>
+                    <button type="submit">Cadastrar</button>
+                </form>
+            </details>
+
+            <form action="#alunos" method="get" role="search">
+                <label for="busca-aluno">Buscar aluno</label>
+                <input id="busca-aluno" name="busca" type="search">
+                <button type="submit">Buscar</button>
+            </form>
+
+            <table>
+                <caption>Alunos cadastrados</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <nav aria-label="Navegação do sistema">
+            <a href="../index.html">Início</a>
+            <a href="aluno.html">Área do aluno</a>
+        </nav>
+    </footer>
+</body>
+</html>

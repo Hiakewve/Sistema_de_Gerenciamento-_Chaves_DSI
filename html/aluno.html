@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Aluno - Gestão de Chaves DSI</title>
+</head>
+<body>
+    <header>
+        <h1>DSI - Gestão de Chaves</h1>
+        <p>Departamento de Sistemas de Informação</p>
+        <p>Área do aluno</p>
+    </header>
+
+    <main>
+        <section aria-labelledby="titulo-status">
+            <h2 id="titulo-status">Status dos Laboratórios</h2>
+            <table>
+                <caption>Disponibilidade atual das chaves</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Laboratório</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <section aria-labelledby="titulo-historico">
+            <h2 id="titulo-historico">Histórico (Emprestados e Devolvidos)</h2>
+            <table>
+                <caption>Solicitações anteriores do aluno</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Data e hora</th>
+                        <th scope="col">Laboratório</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <section aria-labelledby="titulo-solicitacao">
+            <h2 id="titulo-solicitacao">Solicitar Chave</h2>
+            <form action="#" method="get">
+                <label for="laboratorio">Laboratório</label>
+                <select id="laboratorio" name="laboratorio" required>
+                    <option value="">Selecione um laboratório...</option>
+                </select>
+                <button type="submit">Enviar Solicitação</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <nav aria-label="Navegação do sistema">
+            <a href="../index.html">Início</a>
+            <a href="admin.html">Área administrativa</a>
+        </nav>
+    </footer>
+</body>
+</html>
