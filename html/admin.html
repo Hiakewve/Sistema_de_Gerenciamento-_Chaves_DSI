@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/admin.js" defer></script>
     <title>Área Administrativa - Gestão de Chaves DSI</title>
 </head>
 <body>
@@ -42,26 +43,33 @@
         <section id="alunos" aria-labelledby="titulo-alunos">
             <h2 id="titulo-alunos">Alunos</h2>
 
-            <details>
-                <summary>Cadastrar Aluno</summary>
-                <form action="#" method="get">
+            <button class="botao-abrir-dialog" id="abrir-dialog-cadastro" type="button">Cadastrar usuário</button>
+
+            <dialog class="modal-cadastro" id="dialog-cadastro" aria-labelledby="titulo-dialog-cadastro">
+                <h3 id="titulo-dialog-cadastro">Cadastrar usuário</h3>
+                <form id="form-cadastro-aluno" method="dialog">
                     <p>
                         <label for="nome-aluno">Nome</label>
-                        <input id="nome-aluno" name="nome" type="text" autocomplete="name" required>
+                        <input id="nome-aluno" name="nome" type="text" autocomplete="name" required autofocus>
                     </p>
                     <p>
                         <label for="email-aluno">E-mail (Google)</label>
                         <input id="email-aluno" name="email" type="email" autocomplete="email" required>
                     </p>
-                    <button type="submit">Cadastrar</button>
+                    <p class="mensagem-dialog" id="mensagem-cadastro" role="status" aria-live="polite"></p>
+                    <div class="acoes-dialog">
+                        <button class="botao-cancelar-dialog" id="cancelar-dialog-cadastro" type="button">Cancelar</button>
+                        <button type="submit">Cadastrar</button>
+                    </div>
                 </form>
-            </details>
+            </dialog>
 
-            <form action="#alunos" method="get" role="search">
+            <form id="form-busca-alunos" role="search">
                 <label for="busca-aluno">Buscar aluno</label>
                 <input id="busca-aluno" name="busca" type="search">
                 <button type="submit">Buscar</button>
             </form>
+            <p class="resultado-busca" id="resultado-busca-alunos" role="status" aria-live="polite"></p>
 
             <table>
                 <caption>Alunos cadastrados</caption>
