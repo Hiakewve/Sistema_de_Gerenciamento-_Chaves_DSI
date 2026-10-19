@@ -26,7 +26,8 @@ body {
 }
 
 h1,
-h2 {
+h2,
+h3 {
     line-height: 1.25;
 }
 
@@ -37,6 +38,12 @@ h1 {
 h2 {
     margin-bottom: 1em;
     font-size: 1.5em;
+}
+
+h3 {
+    margin: 1em 0 0.5em;
+    font-size: 1.2em;
+    color: #1a3c6e;
 }
 
 a {
@@ -57,11 +64,13 @@ summary:focus-visible {
     outline-offset: 3px;
 }
 
-/* ==========================================================================\n+   2. LAYOUT — Cabeçalho, conteúdo e rodapé\n+   ========================================================================== */
+/* ==========================================================================
+    2. LAYOUT — Cabeçalho, conteúdo e rodapé
+    ========================================================================== */
 
 header {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto auto;
     grid-template-rows: auto auto;
     align-items: center;
     gap: 0 1.5em;
@@ -88,6 +97,24 @@ header p:last-of-type {
     background-color: #5597f4;
     color: #111111;
     white-space: nowrap;
+}
+
+/* Estilo para o botão de Logout no Header */
+#btn-logout {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    padding: 0.4em 0.9em;
+    border: 1px solid #d9534f;
+    border-radius: 6px;
+    background-color: #d9534f;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#btn-logout:hover {
+    background-color: #c9302c;
+    border-color: #c9302c;
 }
 
 main {
@@ -135,7 +162,9 @@ footer > p {
     text-align: center;
 }
 
-/* ==========================================================================\n+   3. COMPONENTES — Navegação, tabelas e formulários\n+   ========================================================================== */
+/* ==========================================================================
+    3. COMPONENTES — Tabelas, Formulários e Badges de Status
+    ========================================================================== */
 
 main > nav {
     margin-bottom: 2em;
@@ -184,6 +213,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
+    margin-bottom: 1em;
 }
 
 caption {
@@ -210,6 +240,42 @@ tbody td {
 tbody tr:last-child th,
 tbody tr:last-child td {
     border-bottom: 0;
+}
+
+/* --- Badges de Status para as Tabelas e Cards --- */
+.badge-status {
+    display: inline-block;
+    padding: 0.25em 0.75em;
+    border-radius: 999px;
+    font-size: 0.85em;
+    font-weight: 700;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.badge-disponivel,
+.badge-devolvida {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.badge-pendente {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.badge-emprestado,
+.badge-recusada {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Card de Status do Aluno */
+#card-status-aluno {
+    padding: 1em;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    border-left: 4px solid #306dcc;
 }
 
 details {
@@ -266,6 +332,31 @@ button:hover {
     background-color: #1755ae;
 }
 
+/* Botões de Ação na Tabela do Admin (Aprovar / Recusar) */
+.btn-acao-aprovar {
+    background-color: #28a745;
+    border-color: #28a745;
+    padding: 0.3em 0.7em;
+    min-height: auto;
+    font-size: 0.9em;
+}
+
+.btn-acao-aprovar:hover {
+    background-color: #218838;
+}
+
+.btn-acao-recusar {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    padding: 0.3em 0.7em;
+    min-height: auto;
+    font-size: 0.9em;
+}
+
+.btn-acao-recusar:hover {
+    background-color: #c82333;
+}
+
 form[role="search"] {
     display: flex;
     align-items: end;
@@ -287,14 +378,16 @@ form[role="search"] input {
     max-width: 20em;
 }
 
-.resultado-busca {
+.resultado-busca,
+.mensagem-feedback {
     min-height: 1.5em;
-    margin: -0.75em 0 0.75em;
-    color: #4a5568;
-    text-align: right;
+    margin-top: 0.5em;
+    font-weight: 600;
 }
 
-/* ==========================================================================\n+   4. PÁGINAS — Variações de layout\n+   ========================================================================== */
+/* ==========================================================================
+    4. PÁGINAS — Variações de layout e navegação de abas no Admin
+    ========================================================================== */
 
 .pagina-inicial h2 {
     text-align: center;
@@ -307,17 +400,18 @@ form[role="search"] input {
     gap: 0 2em;
 }
 
-.pagina-aluno > section:nth-of-type(1) {
+.pagina-aluno > section:nth-of-type(1),
+.pagina-aluno > section:nth-of-type(3) {
     grid-column: 1;
+}
+
+.pagina-aluno > section:nth-of-type(2),
+.pagina-aluno > section:nth-of-type(4) {
+    grid-column: 2;
 }
 
 .pagina-aluno > section:nth-of-type(2) {
-    grid-column: 2;
     grid-row: 1;
-}
-
-.pagina-aluno > section:nth-of-type(3) {
-    grid-column: 1;
 }
 
 .pagina-admin > section {
@@ -375,24 +469,17 @@ form[role="search"] input {
     color: #1a3c6e;
 }
 
+/* Abas de Navegação no Admin */
 .abas-admin {
     display: flex;
     justify-content: center;
-    gap: clamp(1em, 8vw, 5em);
+    gap: clamp(0.5em, 4vw, 2em);
     flex-wrap: wrap;
     margin: 0 0 2em;
     border: 0;
 }
 
-.abas-admin legend {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-}
-
+.abas-admin legend,
 .abas-admin input {
     position: absolute;
     width: 1px;
@@ -403,14 +490,14 @@ form[role="search"] input {
 }
 
 .abas-admin label {
-    min-width: 10em;
+    min-width: 9em;
     margin: 0;
     padding: 0.55em 1em;
     border: 3px solid transparent;
     border-radius: 18px;
     background-color: #bfd9ff;
     color: #0874f9;
-    font-size: 1.25em;
+    font-size: 1.1em;
     font-weight: 700;
     text-align: center;
     cursor: pointer;
@@ -432,36 +519,37 @@ form[role="search"] input {
     margin-bottom: 2em;
 }
 
+/* Controle de exibição das seções pelas abas com CSS :has() */
+.pagina-admin:has(#aba-solicitacoes:checked) > #solicitacoes-pendentes,
 .pagina-admin:has(#aba-laboratorios:checked) > #historico,
 .pagina-admin:has(#aba-alunos:checked) > #alunos {
     display: block;
 }
 
-/* ==========================================================================\n+   5. RESPONSIVIDADE — Telas menores\n+   ========================================================================== */
+/* ==========================================================================
+    5. RESPONSIVIDADE — Telas menores
+    ========================================================================== */
 
 @media (max-width: 760px) {
     header {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
         justify-items: center;
-        gap: 0.35em;
+        gap: 0.5em;
         padding: 1em;
         text-align: center;
     }
 
     header h1,
     header p:first-of-type,
-    header p:last-of-type {
+    header p:last-of-type,
+    #btn-logout {
         grid-column: 1;
         grid-row: auto;
     }
 
     header h1 {
         font-size: 1.6em;
-    }
-
-    header p:last-of-type {
-        margin-top: 0.5em;
     }
 
     main {
@@ -474,18 +562,20 @@ form[role="search"] input {
 
     .pagina-aluno > section:nth-of-type(1),
     .pagina-aluno > section:nth-of-type(2),
-    .pagina-aluno > section:nth-of-type(3) {
+    .pagina-aluno > section:nth-of-type(3),
+    .pagina-aluno > section:nth-of-type(4) {
         grid-column: 1;
         grid-row: auto;
     }
 
     .abas-admin {
-        gap: 0.75em;
+        gap: 0.5em;
     }
 
     .abas-admin label {
-        min-width: 8em;
-        font-size: 1.05em;
+        min-width: 7em;
+        font-size: 0.95em;
+        padding: 0.4em 0.6em;
     }
 }
 
@@ -496,21 +586,13 @@ form[role="search"] input {
 
     main section[aria-labelledby="titulo-status"],
     main section[aria-labelledby="titulo-historico"],
-    main section[aria-labelledby="titulo-alunos"] {
+    main section[aria-labelledby="titulo-alunos"],
+    main section[aria-labelledby="titulo-pendentes"] {
         overflow-x: auto;
     }
 
     table {
-        min-width: 34em;
-    }
-
-    main > nav ul {
-        gap: 0.75em;
-    }
-
-    main > nav a {
-        min-width: 8em;
-        font-size: 1.05em;
+        min-width: 30em;
     }
 
     form[role="search"] {

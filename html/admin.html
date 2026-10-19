@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- CDN do Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Scripts da Aplicação -->
+    <script src="../js/supabase.js" defer></script>
     <script src="../js/admin.js" defer></script>
+    
     <title>Área Administrativa - Gestão de Chaves DSI</title>
 </head>
 <body>
@@ -12,19 +18,58 @@
         <h1>DSI - Gestão de Chaves</h1>
         <p>Departamento de Sistemas de Informação</p>
         <p>Área administrativa</p>
+        <button id="btn-logout" type="button">Sair</button>
     </header>
 
     <main class="pagina-admin">
         <fieldset class="abas-admin">
             <legend>Seções administrativas</legend>
-            <input id="aba-laboratorios" name="secao-admin" type="radio" aria-controls="historico" checked>
-            <label for="aba-laboratorios">Laboratórios</label>
+            <input id="aba-solicitacoes" name="secao-admin" type="radio" aria-controls="solicitacoes-pendentes" checked>
+            <label for="aba-solicitacoes">Solicitações Pendentes</label>
+
+            <input id="aba-laboratorios" name="secao-admin" type="radio" aria-controls="historico">
+            <label for="aba-laboratorios">Histórico Geral</label>
+
             <input id="aba-alunos" name="secao-admin" type="radio" aria-controls="alunos">
             <label for="aba-alunos">Alunos</label>
         </fieldset>
 
-        <section id="historico" aria-labelledby="titulo-historico">
-            <h2 id="titulo-historico">Histórico</h2>
+        <!-- Seção 1: Solicitações Pendentes e Devoluções de Chaves -->
+        <section id="solicitacoes-pendentes" aria-labelledby="titulo-pendentes">
+            <h2 id="titulo-pendentes">Gerenciar Empréstimos e Solicitações</h2>
+            
+            <h3>Solicitações Aguardando Aprovação</h3>
+            <table>
+                <caption>Solicitações pendentes de aprovação</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Aluno</th>
+                        <th scope="col">Laboratório</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-solicitacoes-pendentes"></tbody>
+            </table>
+
+            <h3>Chaves Atualmente Emprestadas</h3>
+            <table>
+                <caption>Chaves sob posse de alunos</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Laboratório</th>
+                        <th scope="col">Aluno</th>
+                        <th scope="col">Data Retirada</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-chaves-emprestadas"></tbody>
+            </table>
+        </section>
+
+        <!-- Seção 2: Histórico Geral -->
+        <section id="historico" aria-labelledby="titulo-historico" hidden>
+            <h2 id="titulo-historico">Histórico Geral</h2>
             <table>
                 <caption>Histórico de empréstimos e devoluções das chaves</caption>
                 <thead>
@@ -36,18 +81,19 @@
                         <th scope="col">Status</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody id="tabela-historico-admin"></tbody>
             </table>
         </section>
 
-        <section id="alunos" aria-labelledby="titulo-alunos">
-            <h2 id="titulo-alunos">Alunos</h2>
+        <!-- Seção 3: Alunos -->
+        <section id="alunos" aria-labelledby="titulo-alunos" hidden>
+            <h2 id="titulo-alunos">Alunos Permitidos</h2>
 
             <button class="botao-abrir-dialog" id="abrir-dialog-cadastro" type="button">Cadastrar usuário</button>
 
             <dialog class="modal-cadastro" id="dialog-cadastro" aria-labelledby="titulo-dialog-cadastro">
                 <h3 id="titulo-dialog-cadastro">Cadastrar usuário</h3>
-                <form id="form-cadastro-aluno" method="dialog">
+                <form id="form-cadastro-aluno">
                     <p>
                         <label for="nome-aluno">Nome</label>
                         <input id="nome-aluno" name="nome" type="text" autocomplete="name" required autofocus>
@@ -72,7 +118,6 @@
             <p class="resultado-busca" id="resultado-busca-alunos" role="status" aria-live="polite"></p>
 
             <table>
-                <caption>Alunos cadastrados</caption>
                 <thead>
                     <tr>
                         <th scope="col">Nome</th>
@@ -80,7 +125,7 @@
                         <th scope="col">Ações</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody id="tabela-alunos-cadastrados"></tbody>
             </table>
         </section>
     </main>
@@ -89,9 +134,7 @@
         <nav aria-label="Navegação do sistema">
             <a href="../index.html">Início</a>
         </nav>
-        <p>
-            &copy; 2026 Chaves Laboratórios - Todos os Direitos Reservados.
-        </p>
+        <p>&copy; 2026 Chaves Laboratórios - Todos os Direitos Reservados.</p>
     </footer>
 </body>
 </html>

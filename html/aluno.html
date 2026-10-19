@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- CDN do Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Scripts da Aplicação -->
+    <script src="../js/supabase.js" defer></script>
+    <script src="../js/aluno.js" defer></script>
+    
     <title>Área do Aluno - Gestão de Chaves DSI</title>
 </head>
 <body>
@@ -11,9 +18,19 @@
         <h1>DSI - Gestão de Chaves</h1>
         <p>Departamento de Sistemas de Informação</p>
         <p>Área do aluno</p>
+        <button id="btn-logout" type="button">Sair</button>
     </header>
 
     <main class="pagina-aluno">
+        <!-- Status Atual do Aluno (Se possui solicitação ativa/chave em posse) -->
+        <section id="status-aluno-container" aria-labelledby="titulo-meu-status">
+            <h2 id="titulo-meu-status">Sua Solicitação Atual</h2>
+            <div id="card-status-aluno">
+                <p>Carregando status...</p>
+            </div>
+        </section>
+
+        <!-- Status de Disponibilidade dos Laboratórios -->
         <section aria-labelledby="titulo-status">
             <h2 id="titulo-status">Status dos Laboratórios</h2>
             <table>
@@ -24,34 +41,37 @@
                         <th scope="col">Status</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody id="tabela-status-laboratorios"></tbody>
             </table>
         </section>
 
-        <section aria-labelledby="titulo-historico">
-            <h2 id="titulo-historico">Histórico (Emprestados e Devolvidos)</h2>
-            <table>
-                <caption>Solicitações anteriores do aluno</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">Data e hora</th>
-                        <th scope="col">Laboratório</th>
-                        <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </section>
-
+        <!-- Form de Solicitação de Chave -->
         <section aria-labelledby="titulo-solicitacao">
             <h2 id="titulo-solicitacao">Solicitar Chave</h2>
-            <form action="#" method="get">
+            <form id="form-solicitar-chave">
                 <label for="laboratorio">Laboratório</label>
                 <select id="laboratorio" name="laboratorio" required>
                     <option value="">Selecione um laboratório...</option>
                 </select>
-                <button type="submit">Enviar Solicitação</button>
+                <button type="submit" id="btn-enviar-solicitacao">Enviar Solicitação</button>
             </form>
+            <p id="mensagem-solicitacao" class="mensagem-feedback" role="status" aria-live="polite"></p>
+        </section>
+
+        <!-- Histórico Exclusivo (Aprovadas / Devolvidas) -->
+        <section aria-labelledby="titulo-historico">
+            <h2 id="titulo-historico">Histórico (Aprovados e Devolvidos)</h2>
+            <table>
+                <caption>Solicitações anteriores do aluno</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Data/Hora</th>
+                        <th scope="col">Laboratório</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-historico-aluno"></tbody>
+            </table>
         </section>
     </main>
 
@@ -59,9 +79,7 @@
         <nav aria-label="Navegação do sistema">
             <a href="../index.html">Início</a>
         </nav>
-        <p>
-            &copy; 2026 Chaves Laboratórios - Todos os Direitos Reservados.
-        </p>
+        <p>&copy; 2026 Chaves Laboratórios - Todos os Direitos Reservados.</p>
     </footer>
 </body>
 </html>
