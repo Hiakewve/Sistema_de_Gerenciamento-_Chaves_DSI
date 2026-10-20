@@ -297,6 +297,10 @@ form p {
     margin-bottom: 1em;
 }
 
+form select {
+    margin-bottom: 1em;
+}
+
 label {
     display: block;
     margin-bottom: 0.35em;
@@ -360,9 +364,9 @@ button:hover {
 form[role="search"] {
     display: flex;
     align-items: end;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 0.75em;
-    margin: 1.5em 0;
+    margin: 0.75em 0;
 }
 
 form[role="search"] label {
@@ -419,7 +423,8 @@ form[role="search"] input {
 }
 
 .botao-abrir-dialog {
-    margin-bottom: 1.5em;
+    margin-bottom: 0;
+    float: right;
 }
 
 .modal-cadastro {
