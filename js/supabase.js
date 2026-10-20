@@ -1,0 +1,3 @@
+const SUPABASE_URL = 'https://rfryqiagidxlgaxmhncu.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmcnlxaWFnaWR4bGdheG1obmN1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk3NzcxOTUsImV4cCI6MjEwNTM1MzE5NX0.f7nm6JJ4tE7oE8cN6JDAEWiIBRVQtZ3hrDRgdanis5U';
+const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

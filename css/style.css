@@ -60,7 +60,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 summary:focus-visible {
-    outline: 3px solid #ff9c35;
+    outline: 3px solid #0874f9;
     outline-offset: 3px;
 }
 
@@ -515,7 +515,7 @@ form[role="search"] input {
 }
 
 .abas-admin input:focus-visible + label {
-    outline: 3px solid #ff9c35;
+    outline: 3px solid #306dcc;
     outline-offset: 3px;
 }
 

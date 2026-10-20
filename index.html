@@ -4,28 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>DSI - Gestão de Chaves</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js" defer></script>
+    <script src="js/auth.js" defer></script>
+    
+    <title>Login - Gestão de Chaves DSI</title>
 </head>
-<body>
+<body class="pagina-inicial">
     <header>
         <h1>DSI - Gestão de Chaves</h1>
         <p>Departamento de Sistemas de Informação</p>
     </header>
 
-    <main class="pagina-inicial">
-        <h2>Acessar sistema</h2>
-        <nav aria-label="Acesso por perfil">
-            <ul>
-                <li><a href="html/admin.html">Área administrativa</a></li>
-                <li><a href="html/aluno.html">Área do aluno</a></li>
-            </ul>
-        </nav>
+    <main>
+        <section>
+            <h2>Acesso ao Sistema</h2>
+            <p style="text-align: center; margin-bottom: 1.5em;">
+                Faça login com a sua conta do Google para acessar o painel.
+            </p>
+            <div style="display: flex; justify-content: center;">
+                <button id="btn-login-google" type="button">
+                    Entrar com Google
+                </button>
+            </div>
+            <p id="mensagem-login" class="mensagem-feedback" role="status" aria-live="polite" style="text-align: center; color: #dc3545;"></p>
+        </section>
     </main>
 
     <footer>
-        <p>
-            &copy; 2026 Chaves Laboratórios - Todos os Direitos Reservados.
-        </p>
+        <p>&copy; 2026 Chaves Laboratórios - Todos os Direitos Reservados.</p>
     </footer>
 </body>
 </html>
