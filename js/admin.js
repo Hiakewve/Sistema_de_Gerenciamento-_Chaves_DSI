@@ -226,9 +226,12 @@ async function carregarAlunosCadastrados(termoBusca = '') {
 
     usuarios.forEach(user => {
         const tr = document.createElement('tr');
+        const badgeClass = user.papel === 'admin' ? 'badge-emprestado' : 'badge-disponivel';
+
         tr.innerHTML = `
             <td>${user.nome || 'N/A'}</td>
             <td>${user.email}</td>
+            <td><span class="badge-status ${badgeClass}">${user.papel}</span></td>
             <td>
                 <button type="button" class="btn-acao-recusar" onclick="removerUsuarioPermitido('${user.email}')">Remover</button>
             </td>
@@ -285,11 +288,13 @@ function configurarModalCadastro() {
         });
     }
 
+    // Substitua o trecho do submit no js/admin.js por este:
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const nome = document.getElementById('nome-aluno').value;
             const email = document.getElementById('email-aluno').value;
+            const papel = document.getElementById('papel-usuario').value; // Captura 'aluno' ou 'admin'
 
             if (msg) {
                 msg.textContent = 'Cadastrando...';
@@ -298,7 +303,7 @@ function configurarModalCadastro() {
 
             const { error } = await _supabase
                 .from('usuarios_permitidos')
-                .insert([{ nome: nome, email: email, papel: 'aluno' }]);
+                .insert([{ nome: nome, email: email, papel: papel }]); // Envia o papel selecionado
 
             if (error) {
                 if (msg) {
@@ -307,7 +312,7 @@ function configurarModalCadastro() {
                 }
             } else {
                 if (msg) {
-                    msg.textContent = 'Usuário cadastrado com sucesso!';
+                    msg.textContent = `Usuário (${papel}) cadastrado com sucesso!`;
                     msg.style.color = '#28a745';
                 }
                 form.reset();

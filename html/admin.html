@@ -94,19 +94,30 @@
             <dialog class="modal-cadastro" id="dialog-cadastro" aria-labelledby="titulo-dialog-cadastro">
                 <h3 id="titulo-dialog-cadastro">Cadastrar usuário</h3>
                 <form id="form-cadastro-aluno">
-                    <p>
-                        <label for="nome-aluno">Nome</label>
-                        <input id="nome-aluno" name="nome" type="text" autocomplete="name" required autofocus>
-                    </p>
-                    <p>
-                        <label for="email-aluno">E-mail (Google)</label>
-                        <input id="email-aluno" name="email" type="email" autocomplete="email" required>
-                    </p>
-                    <p class="mensagem-dialog" id="mensagem-cadastro" role="status" aria-live="polite"></p>
-                    <div class="acoes-dialog">
-                        <button class="botao-cancelar-dialog" id="cancelar-dialog-cadastro" type="button">Cancelar</button>
-                        <button type="submit">Cadastrar</button>
+                    <div class="form-group">
+                        <label for="nome-aluno">Nome:</label>
+                        <input type="text" id="nome-aluno" required placeholder="Digite o nome completo">
                     </div>
+
+                    <div class="form-group">
+                        <label for="email-aluno">E-mail (Google):</label>
+                        <input type="email" id="email-aluno" required placeholder="exemplo@gmail.com">
+                    </div>
+
+                    <!-- Novo campo para selecionar o papel -->
+                    <div class="form-group">
+                        <label for="papel-usuario">Tipo de Usuário:</label>
+                        <select id="papel-usuario" required>
+                            <option value="aluno" selected>Aluno</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" id="cancelar-dialog-cadastro">Cancelar</button>
+                        <button type="submit" class="btn-primary">Cadastrar</button>
+                    </div>
+                    <p id="mensagem-cadastro"></p>
                 </form>
             </dialog>
 
