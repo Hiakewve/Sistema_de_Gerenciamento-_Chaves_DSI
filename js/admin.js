@@ -220,13 +220,13 @@ async function carregarAlunosCadastrados(termoBusca = '') {
     }
 
     if (!usuarios || usuarios.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3">Nenhum usuário cadastrado.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4">Nenhum usuário cadastrado.</td></tr>';
         return;
     }
 
     usuarios.forEach(user => {
         const tr = document.createElement('tr');
-        const badgeClass = user.papel === 'admin' ? 'badge-emprestado' : 'badge-disponivel';
+        const badgeClass = user.papel === 'admin' ? 'badge-papel-admin' : 'badge-papel-aluno';
 
         tr.innerHTML = `
             <td>${user.nome || 'N/A'}</td>
