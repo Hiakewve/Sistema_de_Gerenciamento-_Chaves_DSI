@@ -34,10 +34,10 @@ async function carregarStatusAluno() {
     const { data: { session } } = await _supabase.auth.getSession();
     if (!session) return;
 
-    // Busca solicitações do aluno com status Pendente ou Aprovada (tabela e colunas em minúsculas)
-    const { data: solicitacoes, error } = await _supabase
+    // Busca solicitação sem join direto para evitar o erro 404 de FK
+    const { data: solicitacao, error } = await _supabase
         .from('solicitacao')
-        .select('*, chave(nome)')
+        .select('*')
         .eq('aluno_id', session.user.id)
         .in('status', ['Pendente', 'pendente', 'Aprovada', 'aprovada'])
         .maybeSingle();
@@ -47,11 +47,21 @@ async function carregarStatusAluno() {
         return;
     }
 
-    if (solicitacoes) {
-        const statusFormatado = solicitacoes.status.toLowerCase();
+    if (solicitacao) {
+        // Busca o nome do laboratório separadamente
+        let labNome = 'N/A';
+        if (solicitacao.chave_id) {
+            const { data: chaveData } = await _supabase
+                .from('chave')
+                .select('nome')
+                .eq('id', solicitacao.chave_id)
+                .single();
+            if (chaveData) labNome = chaveData.nome;
+        }
+
+        const statusFormatado = solicitacao.status.toLowerCase();
         let badgeClass = 'badge-pendente';
-        const labNome = solicitacoes.chave ? solicitacoes.chave.nome : 'N/A';
-        let mensagem = `Você possui uma solicitação <strong>${solicitacoes.status}</strong> para a chave do <strong>${labNome}</strong>.`;
+        let mensagem = `Você possui uma solicitação <strong>${solicitacao.status}</strong> para a chave do <strong>${labNome}</strong>.`;
 
         if (statusFormatado === 'aprovada') {
             badgeClass = 'badge-emprestado';
@@ -60,10 +70,10 @@ async function carregarStatusAluno() {
 
         cardStatus.innerHTML = `
             <p>${mensagem}</p>
-            <span class="badge-status ${badgeClass}">${solicitacoes.status}</span>
+            <span class="badge-status ${badgeClass}">${solicitacao.status}</span>
         `;
 
-        // Desabilita o envio de nova solicitação (Regra: apenas 1 por vez)
+        // Trava o formulário (apenas 1 solicitação por vez)
         travarFormularioSolicitacao(true);
     } else {
         cardStatus.innerHTML = '<p>Você não possui nenhuma chave ou solicitação ativa no momento.</p>';
@@ -88,7 +98,6 @@ async function carregarLaboratorios() {
         return;
     }
 
-    // Limpa os elementos
     tbodyStatus.innerHTML = '';
     selectLab.innerHTML = '<option value="">Selecione um laboratório...</option>';
 
@@ -101,7 +110,6 @@ async function carregarLaboratorios() {
         const disponivel = item.disponibilidade ? item.disponibilidade.toLowerCase() === 'disponivel' : false;
         const badgeClass = disponivel ? 'badge-disponivel' : 'badge-emprestado';
 
-        // Linha da tabela
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${item.nome}</td>
@@ -109,7 +117,6 @@ async function carregarLaboratorios() {
         `;
         tbodyStatus.appendChild(tr);
 
-        // Opção do Select (apenas chaves disponíveis)
         if (disponivel) {
             const option = document.createElement('option');
             option.value = item.id;
@@ -154,13 +161,12 @@ async function solicitarChave(event) {
             msgFeedback.style.color = '#28a745';
         }
         
-        // Atualiza os componentes da tela
         await carregarStatusAluno();
         await carregarLaboratorios();
     }
 }
 
-// 4. Carrega o histórico do aluno (somente Aprovadas e Devolvidas por causa do RLS)
+// 4. Carrega o histórico do aluno
 async function carregarHistoricoAluno() {
     const tbodyHistorico = document.getElementById('tabela-historico-aluno');
     if (!tbodyHistorico) return;
@@ -168,12 +174,16 @@ async function carregarHistoricoAluno() {
     const { data: { session } } = await _supabase.auth.getSession();
     if (!session) return;
 
-    const { data: historico, error } = await _supabase
-        .from('solicitacao')
-        .select('*, chave(nome)')
-        .eq('aluno_id', session.user.id)
-        .in('status', ['Aprovada', 'aprovada', 'Devolvida', 'devolvida'])
-        .order('id', { ascending: false });
+    // Busca também as chaves para relacionar manualmente no JS
+    const [{ data: historico, error }, { data: chaves }] = await Promise.all([
+        _supabase
+            .from('solicitacao')
+            .select('*')
+            .eq('aluno_id', session.user.id)
+            .in('status', ['Aprovada', 'aprovada', 'Devolvida', 'devolvida'])
+            .order('id', { ascending: false }),
+        _supabase.from('chave').select('id, nome')
+    ]);
 
     if (error) {
         console.error('Erro ao carregar histórico:', error);
@@ -187,10 +197,15 @@ async function carregarHistoricoAluno() {
         return;
     }
 
+    const chavesMap = (chaves || []).reduce((acc, c) => {
+        acc[c.id] = c.nome;
+        return acc;
+    }, {});
+
     historico.forEach(item => {
         const dataFormatada = new Date(item.retirada_em || item.devolvida_em || Date.now()).toLocaleString('pt-BR');
         const badgeClass = item.status.toLowerCase() === 'devolvida' ? 'badge-devolvida' : 'badge-disponivel';
-        const labNome = item.chave ? item.chave.nome : 'N/A';
+        const labNome = chavesMap[item.chave_id] || 'N/A';
 
         const tr = document.createElement('tr');
         tr.innerHTML = `

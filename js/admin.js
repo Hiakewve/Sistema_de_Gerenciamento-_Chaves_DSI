@@ -14,27 +14,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Configura o Modal de Cadastro de Aluno
+    // Modal e Busca
     configurarModalCadastro();
-
-    // Configura a Busca de Alunos
     configurarBuscaAlunos();
 
-    // Carrega todas as seções administrativas
+    // Carrega seções
     await carregarSolicitacoesPendentes();
     await carregarChavesEmprestadas();
     await carregarHistoricoGeral();
     await carregarAlunosCadastrados();
 });
 
-// 1. Carrega as solicitações aguardando aprovação
+// 1. Carrega as solicitações pendentes
 async function carregarSolicitacoesPendentes() {
     const tbody = document.getElementById('tabela-solicitacoes-pendentes');
     if (!tbody) return;
 
     const { data: pendentes, error } = await _supabase
         .from('solicitacao')
-        .select('*, chave(nome), perfil!solicitacao_aluno_id_fkey(nome, email)')
+        .select('*, chave:chave_id(nome), perfil:aluno_id(nome, email)')
         .in('status', ['Pendente', 'pendente'])
         .order('id', { ascending: true });
 
@@ -101,14 +99,14 @@ async function recusarSolicitacao(idSolicitacao) {
     }
 }
 
-// 2. Carrega as chaves que estão emprestadas no momento
+// 2. Carrega as chaves emprestadas
 async function carregarChavesEmprestadas() {
     const tbody = document.getElementById('tabela-chaves-emprestadas');
     if (!tbody) return;
 
     const { data: emprestadas, error } = await _supabase
         .from('solicitacao')
-        .select('*, chave(nome), perfil!solicitacao_aluno_id_fkey(nome)')
+        .select('*, chave:chave_id(nome), perfil:aluno_id(nome)')
         .in('status', ['Aprovada', 'aprovada'])
         .order('id', { ascending: false });
 
@@ -142,7 +140,7 @@ async function carregarChavesEmprestadas() {
     });
 }
 
-// Action: Registrar Devolução de Chave
+// Action: Registrar Devolução
 async function devolverChave(idSolicitacao) {
     const { error } = await _supabase
         .from('solicitacao')
@@ -163,7 +161,7 @@ async function carregarHistoricoGeral() {
 
     const { data: historico, error } = await _supabase
         .from('solicitacao')
-        .select('*, chave(nome), perfil!solicitacao_aluno_id_fkey(nome)')
+        .select('*, chave:chave_id(nome), perfil:aluno_id(nome)')
         .order('id', { ascending: false });
 
     if (error) {
@@ -229,7 +227,7 @@ async function carregarAlunosCadastrados(termoBusca = '') {
     usuarios.forEach(user => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${user.nome || user.Nome || 'N/A'}</td>
+            <td>${user.nome || 'N/A'}</td>
             <td>${user.email}</td>
             <td>
                 <button type="button" class="btn-acao-recusar" onclick="removerUsuarioPermitido('${user.email}')">Remover</button>
@@ -239,7 +237,7 @@ async function carregarAlunosCadastrados(termoBusca = '') {
     });
 }
 
-// Action: Remover usuário de usuarios_permitidos
+// Action: Remover usuário
 async function removerUsuarioPermitido(email) {
     if (confirm(`Deseja remover a permissão do e-mail ${email}?`)) {
         const { error } = await _supabase
@@ -267,7 +265,7 @@ function configurarBuscaAlunos() {
     }
 }
 
-// Modal de Cadastro de Usuário Permitido
+// Modal de Cadastro
 function configurarModalCadastro() {
     const dialog = document.getElementById('dialog-cadastro');
     const btnAbrir = document.getElementById('abrir-dialog-cadastro');
@@ -323,7 +321,6 @@ function configurarModalCadastro() {
     }
 }
 
-// Atualização de todas as tabelas
 async function recarregarTudo() {
     await carregarSolicitacoesPendentes();
     await carregarChavesEmprestadas();
